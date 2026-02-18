@@ -1,0 +1,19 @@
+{
+  // use LF line endings
+  "files.eol": "\n",
+
+  // disable prettier & eslint for oxc + oxfmt
+  "prettier.enable": false,
+  "eslint.enable": false,
+  "oxc.enable": true,
+
+  // type-aware linting
+  "oxc.typeAware": true,
+
+  // set oxfmt as default formatter for json, ts, tsx, js, jsx, html, css
+  "[json][jsonc][typescript][typescriptreact][javascript][javascriptreact][html][css]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode"
+  },
+  "editor.defaultFormatter": "oxc.oxc-vscode",
+  "editor.formatOnSave": true
+}
