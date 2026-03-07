@@ -45,17 +45,20 @@ const main = defineCommand({
       description: "TanStarter template to use",
       options: ["default", "monorepo"],
       required: false,
+      alias: ["t"],
     },
     install: {
       type: "boolean",
       description: "Install dependencies",
       required: false,
+      alias: ["i"],
     },
     packageManager: {
       type: "enum",
       description: "Package manager to use",
       options: ["pnpm", "npm", "bun", "yarn"],
       required: false,
+      alias: ["p"],
     },
   },
   async run({ args }) {
