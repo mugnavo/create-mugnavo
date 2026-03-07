@@ -32,7 +32,7 @@ async function isPnpmAvailable() {
 const main = defineCommand({
   meta: {
     name: "create-mugnavo",
-    version: "0.1.2",
+    version: "0.1.3",
   },
   args: {
     name: {
