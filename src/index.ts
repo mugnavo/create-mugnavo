@@ -32,7 +32,7 @@ async function isPnpmAvailable() {
 const main = defineCommand({
   meta: {
     name: "create-mugnavo",
-    version: "0.1.0",
+    version: "0.1.1",
   },
   args: {
     name: {
@@ -209,8 +209,11 @@ const main = defineCommand({
             ? "deno task dev"
             : `${finalPackageManager} dev`;
 
+      // template docs
+      const githubUrl = `https://github.com/mugnavo/tanstarter${template === "tanstarter-monorepo" ? "/tree/next" : ""}`;
+
       p.note(
-        `cd ${String(projectName)}${install ? "" : `\n${finalPackageManager} install`}\n${devCommand}`,
+        `cd ${String(projectName)}${install ? "" : `\n${finalPackageManager} install`}\n${devCommand}\n\nSee README.md for next steps\n${githubUrl}`,
         "Next steps",
       );
       p.outro(`Project created successfully`);

@@ -1,6 +1,6 @@
 {
   "name": "create-mugnavo",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Create a project using Mugnavo templates.",
   "homepage": "https://github.com/mugnavo/create-mugnavo#readme",
   "bugs": {
@@ -12,6 +12,7 @@
     "type": "git",
     "url": "git+https://github.com/mugnavo/create-mugnavo.git"
   },
+  "bin": "./dist/index.mjs",
   "files": [
     "dist"
   ],
