@@ -32,7 +32,7 @@ async function isPnpmAvailable() {
 const main = defineCommand({
   meta: {
     name: "create-mugnavo",
-    version: "0.1.1",
+    version: "0.1.2",
   },
   args: {
     name: {
@@ -42,8 +42,8 @@ const main = defineCommand({
     },
     template: {
       type: "enum",
-      description: "Template to use",
-      options: ["tanstarter", "tanstarter-monorepo"],
+      description: "TanStarter template to use",
+      options: ["default", "monorepo"],
       required: false,
     },
     install: {
@@ -88,8 +88,8 @@ const main = defineCommand({
       template = await p.select({
         message: "Select a template to use",
         options: [
-          { value: "tanstarter", label: "TanStarter" },
-          { value: "tanstarter-monorepo", label: "TanStarter (Monorepo)", hint: "Turborepo" },
+          { value: "default", label: "Default", hint: "minimal TanStarter template" },
+          { value: "monorepo", label: "Monorepo", hint: "with Turborepo & pnpm workspaces" },
         ],
       });
       if (p.isCancel(template)) {
@@ -131,7 +131,7 @@ const main = defineCommand({
     try {
       spinner.start("Cloning project...");
       const { dir, source } = await downloadTemplate(
-        `github:mugnavo/tanstarter${template === "tanstarter-monorepo" ? "#next" : ""}`,
+        `github:mugnavo/tanstarter${template === "monorepo" ? "#next" : ""}`,
         { dir: String(projectName) },
       );
 
@@ -141,9 +141,9 @@ const main = defineCommand({
       } catch {}
       try {
         // copy .env.example files to .env
-        if (template === "tanstarter") {
+        if (template === "default") {
           await copyFile(join(dir, ".env.example"), join(dir, ".env"), constants.COPYFILE_EXCL);
-        } else if (template === "tanstarter-monorepo") {
+        } else if (template === "monorepo") {
           await copyFile(
             join(dir, "apps", "web", ".env.example"),
             join(dir, "apps", "web", ".env"),
@@ -210,7 +210,7 @@ const main = defineCommand({
             : `${finalPackageManager} dev`;
 
       // template docs
-      const githubUrl = `https://github.com/mugnavo/tanstarter${template === "tanstarter-monorepo" ? "/tree/next" : ""}`;
+      const githubUrl = `https://github.com/mugnavo/tanstarter${template === "monorepo" ? "/tree/next" : ""}`;
 
       p.note(
         `cd ${String(projectName)}${install ? "" : `\n${finalPackageManager} install`}\n${devCommand}\n\nSee README.md for next steps\n${githubUrl}`,
