@@ -11,7 +11,7 @@ import { prepareTemplateFiles } from "./template/setup";
 const main = defineCommand({
   meta: {
     name: "create-mugnavo",
-    version: "0.1.4",
+    version: "0.1.5",
     description: "Create a project using Mugnavo templates.",
   },
   args: cliArgs,
@@ -51,7 +51,7 @@ const main = defineCommand({
         `cd ${projectName}${install ? "" : `\n${finalPackageManager} install`}\n${devCommand}\n\nSee README.md for next steps\n${templateConfig.homeUrl}`,
         "Next steps",
       );
-      p.outro(`Project created successfully`);
+      p.outro(`All set. Happy coding! 🚀`);
     } catch (error) {
       spinner.stop();
       p.outro("Failed to download template. Please try again later.");
