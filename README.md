@@ -9,7 +9,7 @@ pnpm create mugnavo@latest
 ## Templates
 
 - [`default`](https://github.com/mugnavo/tanstarter) - Minimal TanStarter template (`main` branch)
-- [`monorepo`](https://github.com/mugnavo/tanstarter/tree/next) - Monorepo via Turborepo & pnpm workspaces (`next` branch)
+- [`monorepo`](https://github.com/mugnavo/tanstarter/tree/next) - TanStarter via Turborepo & pnpm workspaces (`next` branch)
 
 ## License
 
