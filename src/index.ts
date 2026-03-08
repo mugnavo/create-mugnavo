@@ -68,12 +68,14 @@ const main = defineCommand({
         }
       }
 
-      const devCommand = getDevCommand(finalPackageManager);
-
-      p.note(
-        `${getNextSteps(projectName, install, finalPackageManager, devCommand)}\n${templateConfig.homeUrl}`,
-        "Next steps",
+      const nextSteps = getNextSteps(
+        projectName,
+        install,
+        finalPackageManager,
+        getDevCommand(finalPackageManager),
       );
+
+      p.note(`${nextSteps}\n${templateConfig.homeUrl}`, "Next steps");
       p.outro(`All set. Happy coding! 🚀`);
     } catch (error) {
       spinner.stop();
