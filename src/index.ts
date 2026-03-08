@@ -11,7 +11,7 @@ import { prepareTemplateFiles } from "./template/setup";
 const main = defineCommand({
   meta: {
     name: "create-mugnavo",
-    version: "0.1.5",
+    version: "0.1.6",
     description: "Create a project using Mugnavo templates.",
   },
   args: cliArgs,

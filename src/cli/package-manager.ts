@@ -61,7 +61,7 @@ export async function installDependencies(dir: string, packageManager: PackageMa
     return true;
   }
 
-  log.error(`Dependency installation failed. You can run ${packageManager} install manually.`);
+  log.error(`Dependency installation failed. You can run \`${packageManager} install\` manually.`);
   return false;
 }
 
