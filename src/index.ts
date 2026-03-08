@@ -21,7 +21,7 @@ function getNextSteps(
   }
 
   if (!install) {
-    steps.push(`${packageManager} install`);
+    steps.push(`${packageManager} install${packageManager === "npm" ? " --legacy-peer-deps" : ""}`);
   }
 
   steps.push(devCommand, "", "See README.md for next steps");
@@ -32,7 +32,7 @@ function getNextSteps(
 const main = defineCommand({
   meta: {
     name: "create-mugnavo",
-    version: "0.2.0",
+    version: "0.2.1",
     description: "Create a project using Mugnavo templates.",
   },
   args: cliArgs,

@@ -39,8 +39,14 @@ export async function installDependencies(dir: string, packageManager: PackageMa
     limit: 5,
     retainLog: false,
   });
+  const spinner = p.spinner();
+  spinner.start();
 
-  const proc = x(packageManager, ["install"], {
+  const params = ["install"];
+  if (packageManager === "npm") {
+    params.push("--legacy-peer-deps");
+  }
+  const proc = x(packageManager, params, {
     throwOnError: false,
     nodeOptions: {
       cwd: dir,
@@ -55,9 +61,10 @@ export async function installDependencies(dir: string, packageManager: PackageMa
   }
 
   const result = await proc;
-
+  spinner.stop();
   if (result.exitCode === 0) {
     log.success("Dependencies installed");
+
     return true;
   }
 
