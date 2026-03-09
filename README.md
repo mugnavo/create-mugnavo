@@ -3,7 +3,7 @@
 CLI for creating projects with Mugnavo templates.
 
 ```bash
-pnpm create mugnavo@latest
+pnpm create mugnavo
 ```
 
 ## Templates
