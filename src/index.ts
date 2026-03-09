@@ -37,7 +37,7 @@ const introString = `
 const main = defineCommand({
   meta: {
     name: "create-mugnavo",
-    version: "0.2.2",
+    version: "0.3.0",
     description: "Create a project using Mugnavo templates.",
   },
   args: cliArgs,

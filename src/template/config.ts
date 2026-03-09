@@ -11,8 +11,8 @@ const TEMPLATE_CONFIG: Record<Template, TemplateConfig> = {
     homeUrl: "https://github.com/mugnavo/tanstarter",
   },
   monorepo: {
-    source: "github:mugnavo/tanstarter#next",
-    homeUrl: "https://github.com/mugnavo/tanstarter/tree/next",
+    source: "github:mugnavo/tanstarter-monorepo",
+    homeUrl: "https://github.com/mugnavo/tanstarter-monorepo",
   },
 };
 
