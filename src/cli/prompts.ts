@@ -130,7 +130,11 @@ async function promptTemplate() {
     message: "Select a template to use",
     options: [
       { value: "default", label: "Default", hint: "minimal TanStarter template" },
-      { value: "monorepo", label: "Monorepo", hint: "TanStarter via Turborepo & pnpm workspaces" },
+      {
+        value: "monorepo",
+        label: "Monorepo (beta)",
+        hint: "TanStarter via Turborepo & pnpm workspaces",
+      },
     ],
   });
 

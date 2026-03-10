@@ -1,6 +1,6 @@
 {
   "name": "create-mugnavo",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Create a project using Mugnavo templates.",
   "homepage": "https://github.com/mugnavo/create-mugnavo#readme",
   "bugs": {
@@ -36,10 +36,10 @@
     "citty": "^0.2.1",
     "giget": "^3.1.2",
     "oxfmt": "^0.36.0",
-    "oxlint": "^1.51.0",
+    "oxlint": "^1.52.0",
     "oxlint-tsgolint": "^0.16.0",
     "tinyexec": "^1.0.2",
-    "tsdown": "^0.21.0",
+    "tsdown": "^0.21.1",
     "typescript": "^5.9.3",
     "vitest": "^4.0.18"
   },
