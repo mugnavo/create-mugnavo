@@ -133,7 +133,7 @@ async function promptTemplate() {
       {
         value: "monorepo",
         label: "Monorepo (beta)",
-        hint: "TanStarter via Turborepo & pnpm workspaces",
+        hint: "TanStarter via Vite+ with pnpm",
       },
     ],
   });
