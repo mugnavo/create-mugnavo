@@ -29,20 +29,14 @@ function getNextSteps(
   return steps.join("\n");
 }
 
-const introString = `
- ⢀⣀ ⡀⣀ ⢀⡀ ⢀⣀ ⣰⡀ ⢀⡀    ⣀⣀  ⡀⢀ ⢀⡀ ⣀⡀ ⢀⣀ ⡀⢀ ⢀⡀
- ⠣⠤ ⠏  ⠣⠭ ⠣⠼ ⠘⠤ ⠣⠭ ⠉⠉ ⠇⠇⠇ ⠣⠼ ⣑⡺ ⠇⠸ ⠣⠼ ⠱⠃ ⠣⠜
-`;
-
 const main = defineCommand({
   meta: {
     name: "create-mugnavo",
-    version: "0.3.2",
+    version: "0.3.3",
     description: "Create a project using Mugnavo templates.",
   },
   args: cliArgs,
   async run({ args }) {
-    p.intro(introString);
     const resolvedOptions = await resolveCliOptions(args);
     if (!resolvedOptions) return;
 

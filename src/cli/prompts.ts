@@ -106,7 +106,7 @@ export async function ensureDirectoryIsEmpty(dir: string) {
 
 async function promptProjectName() {
   const projectName = await p.text({
-    message: "Project name",
+    message: "Project name:",
     placeholder: "my-project",
     defaultValue: "my-project",
     validate(value) {
@@ -127,7 +127,7 @@ async function promptProjectName() {
 
 async function promptTemplate() {
   const template = await p.select({
-    message: "Select a template to use",
+    message: "Select a template:",
     options: [
       { value: "default", label: "Default", hint: "minimal TanStarter template" },
       {
@@ -164,7 +164,7 @@ async function promptPackageManager(
   preferredPackageManager: ResolvedCliOptions["preferredPackageManager"],
 ) {
   const selectedPackageManager = await p.select({
-    message: "Select a package manager",
+    message: "Select a package manager:",
     options: [
       { value: "pnpm", label: "pnpm (Recommended)" },
       { value: "npm", label: "npm" },
