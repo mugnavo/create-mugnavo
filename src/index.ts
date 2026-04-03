@@ -7,6 +7,7 @@ import { getDevCommand, initGitRepo, installDependencies } from "./cli/package-m
 import { resolveCliOptions } from "./cli/prompts";
 import { getTemplateConfig } from "./template/config";
 import { prepareTemplateFiles } from "./template/setup";
+import { resolveTemplateCommitSha } from "./template/source-metadata";
 
 function getNextSteps(
   projectName: string,
@@ -32,7 +33,7 @@ function getNextSteps(
 const main = defineCommand({
   meta: {
     name: "create-mugnavo",
-    version: "0.3.4",
+    version: "0.4.0",
     description: "Create a project using Mugnavo templates.",
   },
   args: cliArgs,
@@ -46,6 +47,7 @@ const main = defineCommand({
     const spinner = p.spinner();
     try {
       const templateConfig = getTemplateConfig(template);
+      const templateCommitShaPromise = resolveTemplateCommitSha(templateConfig);
 
       spinner.start("Cloning project...");
       const { dir, source } = await downloadTemplate(templateConfig.source, {
@@ -54,7 +56,7 @@ const main = defineCommand({
         forceClean: true,
       });
 
-      await prepareTemplateFiles(dir, template, projectName);
+      await prepareTemplateFiles(dir, template, projectName, await templateCommitShaPromise);
 
       const finalPackageManager = selectedPackageManager || preferredPackageManager;
       spinner.stop(`Project cloned from ${source}`);

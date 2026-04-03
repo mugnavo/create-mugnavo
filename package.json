@@ -1,6 +1,6 @@
 {
   "name": "create-mugnavo",
-  "version": "0.3.4",
+  "version": "0.4.0",
   "description": "Create a project using Mugnavo templates.",
   "homepage": "https://github.com/mugnavo/create-mugnavo#readme",
   "bugs": {

@@ -1,6 +1,6 @@
 import type { Template } from "../cli/args";
 
-interface TemplateConfig {
+export interface TemplateConfig {
   source: string;
   homeUrl: string;
 }

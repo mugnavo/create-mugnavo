@@ -3,6 +3,7 @@ import { copyFile, readFile, rm, writeFile } from "node:fs/promises";
 import { basename, join, resolve } from "node:path";
 
 import type { Template } from "../cli/args";
+import { getTemplateConfig } from "./config";
 
 const TITLE_MARKER = "// scaffold:title";
 const DESCRIPTION_MARKER = "// scaffold:description";
@@ -13,6 +14,66 @@ type MarkerReplacement = {
   replacementContent: string;
   skipEmptyLinesAfterMarker?: boolean;
 };
+
+function getReadmeDescription(template: Template, templateCommitSha?: string) {
+  if (!templateCommitSha) {
+    return "This project was scaffolded with [`create-mugnavo`](https://github.com/mugnavo/create-mugnavo).";
+  }
+
+  const templateConfig = getTemplateConfig(template);
+  const shortCommitSha = templateCommitSha.slice(0, 7);
+  const commitUrl = `${templateConfig.homeUrl}/tree/${templateCommitSha}`;
+  const compareUrl = `${templateConfig.homeUrl}/compare/${templateCommitSha}...main`;
+
+  return `This project was scaffolded with \`create-mugnavo\` from commit [\`${shortCommitSha}\`](${commitUrl}). See the [template changelog](${compareUrl}) for newer changes.`;
+}
+
+function addCompareUrlToIssueWatchlist(
+  lines: string[],
+  template: Template,
+  templateCommitSha?: string,
+) {
+  if (!templateCommitSha) {
+    return false;
+  }
+
+  const issueWatchlistHeadingIndex = lines.findIndex(
+    (line) => line.trim() === "## Issue watchlist",
+  );
+
+  if (issueWatchlistHeadingIndex === -1) {
+    return false;
+  }
+
+  const nextSectionIndex = lines.findIndex(
+    (line, index) => index > issueWatchlistHeadingIndex && line.startsWith("## "),
+  );
+  const issueWatchlistEndIndex = nextSectionIndex === -1 ? lines.length : nextSectionIndex;
+  const templateConfig = getTemplateConfig(template);
+  const compareUrl = `${templateConfig.homeUrl}/compare/${templateCommitSha}...main`;
+
+  if (
+    lines
+      .slice(issueWatchlistHeadingIndex + 1, issueWatchlistEndIndex)
+      .some((line) => line.includes(compareUrl))
+  ) {
+    return false;
+  }
+
+  let insertIndex = issueWatchlistHeadingIndex + 1;
+
+  while (insertIndex < issueWatchlistEndIndex && lines[insertIndex]?.trim() === "") {
+    insertIndex += 1;
+  }
+
+  lines.splice(
+    insertIndex,
+    0,
+    `- [Template changelog](${compareUrl}) - Track template updates since this project was created.`,
+  );
+
+  return true;
+}
 
 function resolveGeneratedProjectName(dir: string, projectName: string) {
   if (projectName !== ".") {
@@ -57,7 +118,12 @@ async function updatePackageName(dir: string, projectName: string) {
   await writeFile(packageJsonPath, `${JSON.stringify(packageJson, null, 2)}\n`);
 }
 
-async function updateReadme(dir: string, projectName: string) {
+async function updateReadme(
+  dir: string,
+  template: Template,
+  projectName: string,
+  templateCommitSha?: string,
+) {
   const readmePath = join(dir, "README.md");
   const generatedProjectName = resolveGeneratedProjectName(dir, projectName);
   const readme = await readFile(readmePath, "utf8");
@@ -76,11 +142,12 @@ async function updateReadme(dir: string, projectName: string) {
   replaceMarkersInLines(lines, [
     {
       marker: README_DESCRIPTION_MARKER,
-      replacementContent:
-        "This project was scaffolded with [`create-mugnavo`](https://github.com/mugnavo/create-mugnavo).",
+      replacementContent: getReadmeDescription(template, templateCommitSha),
       skipEmptyLinesAfterMarker: true,
     },
   ]);
+
+  addCompareUrlToIssueWatchlist(lines, template, templateCommitSha);
 
   const updatedReadme = lines.join(lineBreak);
 
@@ -156,12 +223,17 @@ async function updateAppMetadata(dir: string, template: Template, projectName: s
   ]);
 }
 
-export async function prepareTemplateFiles(dir: string, template: Template, projectName: string) {
+export async function prepareTemplateFiles(
+  dir: string,
+  template: Template,
+  projectName: string,
+  templateCommitSha?: string,
+) {
   await Promise.allSettled([
     removeLicenseFile(dir),
     copyEnvFiles(dir, template),
     updatePackageName(dir, projectName),
-    updateReadme(dir, projectName),
+    updateReadme(dir, template, projectName, templateCommitSha),
     updateAppMetadata(dir, template, projectName),
   ]);
 }
