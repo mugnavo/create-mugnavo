@@ -99,11 +99,7 @@ async function copyEnvFiles(dir: string, template: Template) {
       join(dir, "apps", "web", ".env"),
       constants.COPYFILE_EXCL,
     );
-    await copyFile(
-      join(dir, "packages", "db", ".env.example"),
-      join(dir, "packages", "db", ".env"),
-      constants.COPYFILE_EXCL,
-    );
+    return;
   }
 }
 
