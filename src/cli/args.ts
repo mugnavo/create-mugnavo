@@ -29,13 +29,13 @@ export const cliArgs = {
     required: false,
     alias: ["i"],
   },
-  packageManager: {
-    type: "enum",
-    description: "Package manager to use",
-    options: PACKAGE_MANAGER_VALUES,
-    required: false,
-    alias: ["p"],
-  },
+  // packageManager: {
+  //   type: "enum",
+  //   description: "Package manager to use",
+  //   options: PACKAGE_MANAGER_VALUES,
+  //   required: false,
+  //   alias: ["p"],
+  // },
 } satisfies ArgsDef;
 
 export type CliArgs = ParsedArgs<typeof cliArgs>;

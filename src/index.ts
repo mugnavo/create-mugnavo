@@ -33,7 +33,7 @@ function getNextSteps(
 const main = defineCommand({
   meta: {
     name: "create-mugnavo",
-    version: "0.4.2",
+    version: "0.5.0",
     description: "Create a project using Mugnavo templates.",
   },
   args: cliArgs,

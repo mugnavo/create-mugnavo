@@ -159,35 +159,39 @@ async function promptInstall() {
 
   return install;
 }
+/**
+ * For now, we only support pnpm for installations.
+ * Maybe we can remove some of this code later if we don't end up supporting other package managers.
+ */
+// async function promptPackageManager(
+//   preferredPackageManager: ResolvedCliOptions["preferredPackageManager"],
+// ) {
+//   const selectedPackageManager = await p.select({
+//     message: "Select a package manager:",
+//     options: [
+//       { value: "pnpm", label: "pnpm (Recommended)" },
+//       { value: "npm", label: "npm" },
+//       { value: "bun", label: "bun" },
+//       { value: "yarn", label: "yarn" },
+//       { value: "deno", label: "deno" },
+//     ],
+//     initialValue: preferredPackageManager,
+//   });
 
-async function promptPackageManager(
-  preferredPackageManager: ResolvedCliOptions["preferredPackageManager"],
-) {
-  const selectedPackageManager = await p.select({
-    message: "Select a package manager:",
-    options: [
-      { value: "pnpm", label: "pnpm (Recommended)" },
-      { value: "npm", label: "npm" },
-      { value: "bun", label: "bun" },
-      { value: "yarn", label: "yarn" },
-      { value: "deno", label: "deno" },
-    ],
-    initialValue: preferredPackageManager,
-  });
+//   if (p.isCancel(selectedPackageManager)) {
+//     p.cancel("Operation cancelled.");
+//     return;
+//   }
 
-  if (p.isCancel(selectedPackageManager)) {
-    p.cancel("Operation cancelled.");
-    return;
-  }
-
-  return selectedPackageManager;
-}
+//   return selectedPackageManager;
+// }
 
 export async function resolveCliOptions(args: CliArgs): Promise<ResolvedCliOptions | undefined> {
   let projectName = args.name;
   let template = args.template;
   let install = args.install;
-  let selectedPackageManager = args.packageManager;
+  // let selectedPackageManager = args.packageManager;
+  let selectedPackageManager: PackageManager | undefined = undefined;
 
   const preferredPackageManager = (await isPnpmAvailable())
     ? "pnpm"
@@ -219,14 +223,19 @@ export async function resolveCliOptions(args: CliArgs): Promise<ResolvedCliOptio
     if (!template) return;
   }
 
-  if (install === undefined) {
+  // if (install === undefined) {
+  //   install = await promptInstall();
+  //   if (install === undefined) return;
+  // }
+
+  // if (install && !selectedPackageManager) {
+  //   selectedPackageManager = await promptPackageManager(preferredPackageManager);
+  //   if (!selectedPackageManager) return;
+  // }
+
+  if (install === undefined && preferredPackageManager === "pnpm") {
     install = await promptInstall();
     if (install === undefined) return;
-  }
-
-  if (install && !selectedPackageManager) {
-    selectedPackageManager = await promptPackageManager(preferredPackageManager);
-    if (!selectedPackageManager) return;
   }
 
   if (!isOneOf(TEMPLATE_VALUES, template) || typeof install !== "boolean") return;
