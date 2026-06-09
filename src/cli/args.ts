@@ -25,7 +25,7 @@ export const cliArgs = {
   },
   install: {
     type: "boolean",
-    description: "Install dependencies",
+    description: "Install dependencies with pnpm",
     required: false,
     alias: ["i"],
   },
