@@ -1,6 +1,6 @@
 {
   "name": "create-mugnavo",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "description": "Create a project using Mugnavo templates.",
   "homepage": "https://github.com/mugnavo/create-mugnavo#readme",
   "bugs": {
@@ -30,18 +30,18 @@
     "prepublishOnly": "pnpm run build"
   },
   "devDependencies": {
-    "@clack/prompts": "^1.5.1",
-    "@types/node": "^25.9.2",
+    "@clack/prompts": "^1.6.0",
+    "@types/node": "^26.1.0",
     "bumpp": "^11.1.0",
     "citty": "^0.2.2",
-    "giget": "^3.2.0",
-    "oxfmt": "^0.54.0",
-    "oxlint": "^1.69.0",
-    "oxlint-tsgolint": "^0.23.0",
+    "giget": "^3.3.0",
+    "oxfmt": "^0.57.0",
+    "oxlint": "^1.72.0",
+    "oxlint-tsgolint": "^0.24.0",
     "tinyexec": "^1.2.4",
-    "tsdown": "^0.22.2",
+    "tsdown": "^0.22.3",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.8"
+    "vitest": "^4.1.9"
   },
   "engines": {
     "node": ">=24"

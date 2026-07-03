@@ -132,8 +132,8 @@ async function promptTemplate() {
       { value: "default", label: "Default", hint: "minimal TanStarter template" },
       {
         value: "monorepo",
-        label: "Monorepo (beta)",
-        hint: "TanStarter via Vite+ with pnpm",
+        label: "Monorepo",
+        hint: "TanStarter via pnpm workspaces",
       },
     ],
   });
