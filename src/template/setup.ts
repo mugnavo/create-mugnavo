@@ -1,5 +1,4 @@
-import { constants } from "node:fs";
-import { copyFile, readFile, rm, writeFile } from "node:fs/promises";
+import { readFile, rm, writeFile } from "node:fs/promises";
 import { basename, join, resolve } from "node:path";
 
 import type { Template } from "../cli/args";
@@ -87,17 +86,37 @@ async function removeLicenseFile(dir: string) {
   await rm(join(dir, "LICENSE"), { force: true });
 }
 
+function createLocalEnvFile(schema: string) {
+  const lineBreak = schema.includes("\r\n") ? "\r\n" : "\n";
+  const lines = schema.split(/\r?\n/);
+  const headerDividerIndex = lines.findIndex((line) => /^# -{3,}$/.test(line.trim()));
+
+  if (headerDividerIndex !== -1) {
+    lines.splice(0, headerDividerIndex + 1);
+
+    while (lines[0]?.trim() === "") {
+      lines.shift();
+    }
+  }
+
+  return lines.filter((line) => !line.trim().startsWith("# @")).join(lineBreak);
+}
+
+async function copyEnvFile(schemaPath: string, localEnvPath: string) {
+  const schema = await readFile(schemaPath, "utf8");
+  await writeFile(localEnvPath, createLocalEnvFile(schema), { flag: "wx" });
+}
+
 async function copyEnvFiles(dir: string, template: Template) {
   if (template === "default") {
-    await copyFile(join(dir, ".env.example"), join(dir, ".env"), constants.COPYFILE_EXCL);
+    await copyEnvFile(join(dir, ".env.schema"), join(dir, ".env.local"));
     return;
   }
 
   if (template === "monorepo") {
-    await copyFile(
-      join(dir, "apps", "web", ".env.example"),
-      join(dir, "apps", "web", ".env"),
-      constants.COPYFILE_EXCL,
+    await copyEnvFile(
+      join(dir, "apps", "web", ".env.schema"),
+      join(dir, "apps", "web", ".env.local"),
     );
     return;
   }

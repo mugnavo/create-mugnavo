@@ -29,6 +29,22 @@ function createCliArgs(overrides: {
   } as unknown as CliArgs;
 }
 
+const envSchema = [
+  "# This env file uses @env-spec: https://varlock.dev/env-spec",
+  "#",
+  "# @defaultRequired=false @defaultSensitive=false",
+  "# @generateTsTypes(path=env.d.ts)",
+  "# ----------",
+  "",
+  "# Public origin used by the browser.",
+  "# @public @type=url",
+  "PUBLIC_APP_URL=http://localhost:3000",
+  "",
+  "# @sensitive",
+  "DATABASE_URL=",
+  "",
+].join("\n");
+
 beforeEach(() => {
   process.chdir(originalCwd);
 });
@@ -43,7 +59,7 @@ describe("prepareTemplateFiles", () => {
     const dir = await createTempDir();
 
     await mkdir(join(dir, "src", "routes"), { recursive: true });
-    await writeFile(join(dir, ".env.example"), "FOO=bar\n");
+    await writeFile(join(dir, ".env.schema"), envSchema);
     await writeFile(join(dir, "package.json"), '{"name":"template-app"}\n');
     await writeFile(
       join(dir, "README.md"),
@@ -72,6 +88,16 @@ describe("prepareTemplateFiles", () => {
 
     await prepareTemplateFiles(dir, "default", "my-app");
 
+    await expect(readFile(join(dir, ".env.local"), "utf8")).resolves.toBe(
+      [
+        "# Public origin used by the browser.",
+        "PUBLIC_APP_URL=http://localhost:3000",
+        "",
+        "DATABASE_URL=",
+        "",
+      ].join("\n"),
+    );
+
     await expect(readFile(join(dir, "README.md"), "utf8")).resolves.toBe(
       [
         "# my-app",
@@ -87,7 +113,7 @@ describe("prepareTemplateFiles", () => {
     const directoryName = basename(dir);
 
     await mkdir(join(dir, "src", "routes"), { recursive: true });
-    await writeFile(join(dir, ".env.example"), "FOO=bar\n");
+    await writeFile(join(dir, ".env.schema"), envSchema);
     await writeFile(join(dir, "package.json"), '{"name":"template-app"}\n');
     await writeFile(
       join(dir, "README.md"),
@@ -129,6 +155,37 @@ describe("prepareTemplateFiles", () => {
     );
     await expect(readFile(join(dir, "src", "routes", "__root.tsx"), "utf8")).resolves.toContain(
       `title: ${JSON.stringify(directoryName)},`,
+    );
+  });
+
+  it("creates a cleaned local env file for the monorepo web app", async () => {
+    const dir = await createTempDir();
+
+    await mkdir(join(dir, "apps", "web", "src", "routes"), { recursive: true });
+    await writeFile(join(dir, "apps", "web", ".env.schema"), envSchema);
+    await writeFile(join(dir, "package.json"), '{"name":"template-app"}\n');
+    await writeFile(join(dir, "README.md"), "# template-app\n");
+    await writeFile(
+      join(dir, "apps", "web", "src", "routes", "__root.tsx"),
+      [
+        "// scaffold:title",
+        'title: "template-app",',
+        "// scaffold:description",
+        "description",
+        "",
+      ].join("\n"),
+    );
+
+    await prepareTemplateFiles(dir, "monorepo", "my-app");
+
+    await expect(readFile(join(dir, "apps", "web", ".env.local"), "utf8")).resolves.toBe(
+      [
+        "# Public origin used by the browser.",
+        "PUBLIC_APP_URL=http://localhost:3000",
+        "",
+        "DATABASE_URL=",
+        "",
+      ].join("\n"),
     );
   });
 });
