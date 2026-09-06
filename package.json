@@ -25,6 +25,7 @@
     "format": "oxfmt",
     "format:check": "oxfmt --check",
     "check": "pnpm run format && pnpm run lint",
+    "ci": "pnpm run format:check && pnpm run lint && pnpm run test --run && pnpm run build",
     "deps": "pnpm dlx taze@latest -Ilw",
     "test": "vitest",
     "prepublishOnly": "pnpm run build"
@@ -32,7 +33,6 @@
   "devDependencies": {
     "@clack/prompts": "1.7.0",
     "@types/node": "26.4.1",
-    "bumpp": "12.3.0",
     "citty": "0.2.2",
     "giget": "3.3.1",
     "oxfmt": "0.66.0",

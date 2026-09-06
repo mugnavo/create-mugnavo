@@ -1,0 +1,12 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "bootstrap-sha": "b33ef23928afdb31054c53bc00fa1004aff034c8",
+  "packages": {
+    ".": {
+      "release-type": "node",
+      "package-name": "create-mugnavo",
+      "include-component-in-tag": false,
+      "include-v-in-tag": true
+    }
+  }
+}

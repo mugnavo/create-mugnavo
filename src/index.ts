@@ -2,6 +2,7 @@ import * as p from "@clack/prompts";
 import { defineCommand, runMain } from "citty";
 import { downloadTemplate } from "giget";
 
+import packageJson from "../package.json" with { type: "json" };
 import { cliArgs } from "./cli/args";
 import { getDevCommand, initGitRepo, installDependencies } from "./cli/package-manager";
 import { resolveCliOptions } from "./cli/prompts";
@@ -33,7 +34,7 @@ function getNextSteps(
 const main = defineCommand({
   meta: {
     name: "create-mugnavo",
-    version: "0.6.1",
+    version: packageJson.version,
     description: "Create a project using Mugnavo templates.",
   },
   args: cliArgs,
