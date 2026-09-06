@@ -8,6 +8,7 @@
   "trailingComma": "all",
   "experimentalSortImports": {},
   "ignorePatterns": [
+    "CHANGELOG.md",
     "pnpm-lock.yaml",
     "package-lock.json",
     "yarn.lock",
